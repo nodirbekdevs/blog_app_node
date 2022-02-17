@@ -1,1 +1,1 @@
-# blog_app_node
+# Sample Express APP with MongoDB and typescript
