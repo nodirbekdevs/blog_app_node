@@ -9,7 +9,7 @@ export class BlogStorage implements BlogRepo {
 
     async find(query: Object): Promise<IBlog[]> {
         try {
-            let blogs = await Blog.find({ ...query })
+            let blogs = await Blog.find({ ...query }).populate("maker category")
             return blogs
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)
@@ -19,10 +19,10 @@ export class BlogStorage implements BlogRepo {
 
     async findOne(query: Object): Promise<IBlog> {
         try {
-            let blog = await Blog.findOne({ ...query })
+            let blog = await Blog.findOne({ ...query }).populate("maker category")
             if (!blog) {
                 logger.warn(`${this.scope}.get failed to findOne`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'blog_404')
             }
             return blog
         } catch (error) {
@@ -46,7 +46,7 @@ export class BlogStorage implements BlogRepo {
             let blog = await Blog.findByIdAndUpdate(id, payload, {new: true})
             if (!blog) {
                 logger.warn(`${this.scope}.update failed to findByIdAndUpdate`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'blog_404')
             }
             return blog
         } catch (error) {
@@ -60,7 +60,7 @@ export class BlogStorage implements BlogRepo {
             let blog = await Blog.findByIdAndDelete(id)
             if (!blog) {
                 logger.warn(`${this.scope}.delete failed to findByIdAndDelete`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'blog_404')
             }
             return blog
         } catch (error) {

@@ -1,5 +1,6 @@
 import { Schema, Document, model } from 'mongoose'
 import { v4 as uuidv4 } from 'uuid'
+import { hashSync, genSalt} from 'bcrypt'
 
 export interface IUser extends Document {
     _id: string
@@ -11,7 +12,7 @@ export interface IUser extends Document {
     madeAt: Date
 }
 
-export default model<IUser>('User', new Schema({
+const user = new Schema({
     _id: {type: String, default: uuidv4},
     name: {
         first_name: {type: String},
@@ -22,4 +23,12 @@ export default model<IUser>('User', new Schema({
     interestedCategories: [{type: String, ref: 'Category'}],
     photo: {type: String, default: ''},
     madeAt: {type: Date, default: Date.now}
-}))
+})
+
+user.pre<IUser>('save', async function (next) {
+    const hash = await hashSync(this.password, 10);
+    this.password = hash
+    next()
+})
+
+export default model<IUser>('User', user)

@@ -1,4 +1,4 @@
-import { SampleRepo, ISampleAllResponse } from '../repo/sample'
+import { SampleRepo } from '../repo/sample'
 import Sample, { ISample } from '../../models/Sample'
 import { logger } from '../../config/logger'
 import AppError from '../../utils/appError'
@@ -9,7 +9,6 @@ export class SampleStorage implements SampleRepo {
     async find(query: Object): Promise<ISample[]> {
         try {
             let dbObj = await Sample.find({ ...query })
-
             return dbObj
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)

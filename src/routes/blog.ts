@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import multer from 'multer'
-import {multerConfig} from '../middleware/multer'
+import multer from '../middleware/multer'
 import { BlogController } from '../controllers/blog'
 import { BlogValidator } from '../validators/blog'
 import { Middleware } from '../middleware/auth'
@@ -10,16 +9,13 @@ const controller = new BlogController()
 const validator = new BlogValidator()
 const middleware = new Middleware()
 
-const transfer = multer(multerConfig).array('images', 10)
+const upload = multer(['image/png', 'image/jpeg'], 20).array('images', 3)
 
-router.route('/all').get(middleware.auth(['admin','user']),controller.getAll)
-router
-    .route('/create')
-    .post(transfer, validator.create, controller.create)
-router
-    .route('/:id')
-    .get(controller.get)
-    .patch(middleware.auth(['admin']), transfer, validator.update, controller.update)
-    .delete(controller.delete)
+
+router.get('/all', middleware.auth(['user', 'admin']), controller.getAll)
+router.get('/:id', middleware.auth(['user', 'admin']), controller.get)
+router.post('/create', middleware.auth(['admin']), upload, validator.create, controller.create)
+router.patch('/:id', middleware.auth(['admin']), upload, validator.update, controller.update)
+router.delete('/:id', middleware.auth(['admin']), controller.delete)
 
 export default router

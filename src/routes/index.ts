@@ -5,7 +5,6 @@ import adminRouter from './admin'
 import blogRouter from './blog'
 import categoryRouter from './category'
 import userRouter from './user'
-import authRouter from './auth'
 
 const router = express.Router({ mergeParams: true })
 
@@ -15,6 +14,5 @@ router.use('/admin', adminRouter)
 router.use('/blog', blogRouter)
 router.use('/category', categoryRouter)
 router.use('/user', userRouter)
-router.use('/auth', authRouter)
 
 export default router

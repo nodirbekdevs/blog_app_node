@@ -1,8 +1,8 @@
 import app from "./app"
 import DB from "./core/db"
 import config from "./config/config"
-import { logger } from "./config/logger"
-    ;(async function () {
+import { logger } from "./config/logger";
+(async function () {
     try {
         const db = new DB()
         db.connect()

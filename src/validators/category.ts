@@ -9,11 +9,11 @@ export class CategoryValidator {
     }
 
     createSchema = Joi.object({
-        name: Joi.string().required(),
+        name: Joi.string().required()
     })
 
     updateSchema = Joi.object({
-        name: Joi.string().required(),
+        name: Joi.string().required()
     })
 
     create = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

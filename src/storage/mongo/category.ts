@@ -18,10 +18,10 @@ export class CategoryStorage implements CategoryRepo {
 
     async findOne(query: Object): Promise<ICategory> {
         try {
-            let category = await Category.findOne({ ...query })
+            let category = await Category.findOne(query)
             if (!category) {
                 logger.warn(`${this.scope}.get failed to findOne`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'category_404')
             }
             return category
         } catch (error) {
@@ -29,20 +29,6 @@ export class CategoryStorage implements CategoryRepo {
             throw error
         }
     }
-
-    // async add(id: string): Promise<ICategory> {
-    //     try {
-    //         let category = await Category.findByIdAndUpdate(id,  {$inc: {total_blogs: +1}},{new: true})
-    //         if (!category) {
-    //             logger.warn(`${this.scope}.get failed to findOne`)
-    //             throw new AppError(404, 'sample_404')
-    //         }
-    //         return category
-    //     } catch (error) {
-    //         logger.error(`${this.scope}.findOne: finished with error: ${error}`)
-    //         throw error
-    //     }
-    // }
 
     async create(payload: ICategory): Promise<ICategory> {
         try {
@@ -54,12 +40,12 @@ export class CategoryStorage implements CategoryRepo {
         }
     }
 
-    async update(id: string, payload: ICategory): Promise<ICategory> {
+    async update(id: string, payload: ICategory | Object): Promise<ICategory> {
         try {
-            let category = await Category.findByIdAndUpdate(id, payload, {new: true})
+            const category = await Category.findByIdAndUpdate(id, payload, {new: true})
             if (!category) {
                 logger.warn(`${this.scope}.update failed to findByIdAndUpdate`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'category_404')
             }
             return category
         } catch (error) {
@@ -73,7 +59,7 @@ export class CategoryStorage implements CategoryRepo {
             let category = await Category.findByIdAndDelete(id)
             if (!category) {
                 logger.warn(`${this.scope}.delete failed to findByIdAndDelete`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'category_404')
             }
             return category
         } catch (error) {

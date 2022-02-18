@@ -9,7 +9,7 @@ export class CategoryController {
     })
 
     get = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        const category = await storage.category.findOne(req.query)
+        const category = await storage.category.findOne({_id: req.params.id })
         res.status(200).json({success: true, data: {category}})
     })
 

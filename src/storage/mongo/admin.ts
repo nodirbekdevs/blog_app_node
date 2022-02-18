@@ -8,7 +8,11 @@ export class AdminStorage implements AdminRepo {
 
     async find(query: Object): Promise<IAdmin[]> {
         try {
-            let admins = await Admin.find({ ...query })
+            let admins = await Admin.find({ ...query }).select('-password')
+            if (!admins) {
+                logger.warn(`${this.scope}.get failed to findOne`)
+                throw new AppError(404, 'admin_404')
+            }
             return admins
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)
@@ -18,8 +22,7 @@ export class AdminStorage implements AdminRepo {
 
     async findOne(query: Object): Promise<IAdmin> {
         try {
-            console.log({...query},query)
-            let admin = await Admin.findOne(query)
+            let admin = await Admin.findOne(query).select('-password')
             if (!admin) {
                 logger.warn(`${this.scope}.get failed to findOne`)
                 throw new AppError(404, 'admin_404')
@@ -34,6 +37,10 @@ export class AdminStorage implements AdminRepo {
     async create(payload: IAdmin): Promise<IAdmin> {
         try {
             let admin = await Admin.create(payload)
+            if (!admin) {
+                logger.warn(`${this.scope}.get failed to findOne`)
+                throw new AppError(404, 'admin_404')
+            }
             return admin
         } catch (error) {
             logger.error(`${this.scope}.create: finished with error: ${error}`)
@@ -46,7 +53,7 @@ export class AdminStorage implements AdminRepo {
             let admin = await Admin.findByIdAndUpdate(id, payload, {new: true})
             if (!admin) {
                 logger.warn(`${this.scope}.update failed to findByIdAndUpdate`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'admin_404')
             }
             return admin
         } catch (error) {
@@ -60,7 +67,7 @@ export class AdminStorage implements AdminRepo {
             let admin = await Admin.findByIdAndDelete(id)
             if (!admin) {
                 logger.warn(`${this.scope}.delete failed to findByIdAndDelete`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'admin_404')
             }
             return admin
         } catch (error) {

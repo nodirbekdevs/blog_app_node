@@ -1,6 +1,6 @@
 import Joi from 'joi'
-import {Request, Response, NextFunction} from 'express'
-import catchAsync from "../utils/catchAsync";
+import { Request, Response, NextFunction } from 'express'
+import catchAsync from '../utils/catchAsync'
 
 export class BlogValidator {
     keys = {
@@ -13,7 +13,7 @@ export class BlogValidator {
         category: Joi.string().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        images: Joi.string(),
+        images: Joi.array().items(Joi.string())
     })
 
     updateSchema = Joi.object({
@@ -21,7 +21,7 @@ export class BlogValidator {
         category: Joi.string().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        images: Joi.string(),
+        images: Joi.array().items(Joi.string())
     })
 
     create = catchAsync(async (req: Request, res: Response, next: NextFunction) => {

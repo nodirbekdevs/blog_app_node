@@ -8,7 +8,7 @@ export class UserStorage implements UserRepo {
 
     async find(query: Object): Promise<IUser[]> {
         try {
-            let users = await User.find({ ...query })
+            let users = await User.find({ ...query }).populate("interestedCategories")
             return users
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)
@@ -18,10 +18,11 @@ export class UserStorage implements UserRepo {
 
     async findOne(query: Object): Promise<IUser> {
         try {
-            let user = await User.findOne(query)
+            console.log(query)
+            let user = await User.findOne(query).populate("interestedCategories")
             if (!user) {
                 logger.warn(`${this.scope}.get failed to findOne`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'user_404')
             }
             return user
         } catch (error) {
@@ -45,7 +46,7 @@ export class UserStorage implements UserRepo {
             let user = await User.findByIdAndUpdate(id, payload, {new: true})
             if (!user) {
                 logger.warn(`${this.scope}.update failed to findByIdAndUpdate`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'user_404')
             }
             return user
         } catch (error) {
@@ -59,7 +60,7 @@ export class UserStorage implements UserRepo {
             let user = await User.findByIdAndDelete(id)
             if (!user) {
                 logger.warn(`${this.scope}.delete failed to findByIdAndDelete`)
-                throw new AppError(404, 'sample_404')
+                throw new AppError(404, 'user_404')
             }
             return user
         } catch (error) {
