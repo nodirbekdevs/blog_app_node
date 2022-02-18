@@ -30,17 +30,22 @@ export class BlogController {
                 req.body.images.push(image);
             })
         );
-        const blog = await storage.blog.create({ ...req.body })
+        const blog = await storage.blog.create(req.body)
         res.status(201).json({ success: true, data: { blog } })
     })
 
     update = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-        let image
-        if (req.file) {
-            image = `images/${req.file.fieldname}-${uuidv4()}`
-            await sharp(req.file.buffer).png().toFile(join(__dirname, '../../uploads', `${image}.png`))
-        }
-        const blog = await storage.blog.update(req.params.id, { ...req.body, images: `${image}.png` })
+        if (!req.files) return next();
+        req.body.images = [];
+        let files = JSON.parse(JSON.stringify(req.files))
+        await Promise.all(
+            files.map(async (file: any) => {
+                const image = `images/${file.fieldname}-${uuidv4()}`;
+                await sharp(file.buffer).png().toFile(join(__dirname, '../../uploads', `${image}.png`))
+                req.body.images.push(image);
+            })
+        );
+        const blog = await storage.blog.update(req.params.id, req.body)
         res.status(200).json({ success: true, data: { blog } })
     })
 
