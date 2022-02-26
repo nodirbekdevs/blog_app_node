@@ -1,1 +1,1 @@
-# Sample Express APP with MongoDB and typescript
+# Sample Express APP with MongoDB and Typescript
