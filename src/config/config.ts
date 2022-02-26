@@ -21,7 +21,11 @@ let config: Config = {
 }
 
 function getConf(name: string, def: string = ''): string {
-    return process.env[name] ? process.env[name] || '' : def
+    if (process.env[name]) {
+        return process.env[name] || ''
+    }
+
+    return def
 }
 
 export default config

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import cors from 'cors'
-import http from 'http'
+import { createServer } from 'http'
 import helmet from 'helmet'
 import {urlencoded, json} from 'body-parser'
 import compression from 'compression'
@@ -10,7 +10,7 @@ import { ErrorController } from './controllers/error'
 import { langMiddleware } from './middleware/lang'
 
 const app = express()
-let server = http.createServer(app)
+let server = createServer(app)
 
 app.use(cors())
 app.use(json())
@@ -19,7 +19,6 @@ app.use(helmet())
 app.use(compression())
 app.use(expressLogger())
 app.use(langMiddleware)
-app.use('/uploads', express.static('uploads'))
 app.use('/api', routes)
 
 app.get('/status', (req: Request, res: Response) => res.json({ status: 'OK' }))

@@ -8,15 +8,35 @@ export interface IBlog extends Document {
     title: string
     content: string
     images: string[]
-    madeAt: Date
+    madeAt: number
 }
 
-export default model<IBlog>('Blog', new Schema({
-    _id: {type: String, default: uuidv4},
-    maker: {type: String, ref: 'Admin'},
-    category: {type: String, ref: 'Category'},
-    title: {type: String},
-    content: {type: String},
-    images: [{type: String, default: ''}],
-    madeAt: {type: Date, default: Date.now}
-}))
+const blogSchema = new Schema({
+    _id: {
+        type: String,
+        default: uuidv4
+    },
+    maker: {
+        type: String,
+        ref: 'Admin'
+    },
+    category: {
+        type: String,
+        ref: 'Category'
+    },
+    title: {
+        type: String
+    },
+    content: {
+        type: String
+    },
+    images: [{
+        type: String, default: ''
+    }],
+    madeAt: {
+        type: Number,
+        default: Date.now
+    }
+})
+
+export default model<IBlog>('Blog', blogSchema)

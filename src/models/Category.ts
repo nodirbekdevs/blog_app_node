@@ -5,12 +5,25 @@ export interface ICategory extends Document {
     _id: string
     name: string
     total_blogs: number
-    madeAt: Date
+    madeAt: number
 }
 
-export default model<ICategory>('Category', new Schema({
-    _id: {type: String, default: uuidv4},
-    name: {type: String, required: true},
-    total_blogs: {type: Number},
-    madeAt: {type: Date, default: Date.now}
-}))
+const categorySchema = new Schema({
+    _id: {
+        type: String,
+        default: uuidv4
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    total_blogs: {
+        type: Number
+    },
+    madeAt: {
+        type: Number,
+        default: Date.now
+    }
+})
+
+export default model<ICategory>('Category', categorySchema)

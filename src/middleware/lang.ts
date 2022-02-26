@@ -9,8 +9,9 @@ export const langMiddleware = async (req: Request, res: Response, next: NextFunc
 
     let { lang } = req.headers as { lang: string }
 
-    if (!lang || !languages[lang]) lang = 'uz'
-
+    if (!lang || !languages[lang]) {
+        lang = 'uz'
+    }
 
     res.locals.lang = lang
 

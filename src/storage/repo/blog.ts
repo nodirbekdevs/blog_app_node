@@ -9,6 +9,7 @@ export interface BlogRepo {
     find(query: Object): Promise<IBlog[]>
     findOne(query: Object): Promise<IBlog>
     create(payload: IBlog): Promise<IBlog>
+    updateMany(id: string, payload: Object): Promise<any>
     update(id: string, payload: IBlog): Promise<IBlog>
     delete(id: string): Promise<IBlog>
 }

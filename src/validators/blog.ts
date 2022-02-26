@@ -9,28 +9,30 @@ export class BlogValidator {
     }
 
     createSchema = Joi.object({
-        maker: Joi.string().required(),
-        category: Joi.string().required(),
+        category: Joi.string().uuid().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        images: Joi.array().items(Joi.string())
+        images: Joi.array().items(Joi.string()),
     })
 
     updateSchema = Joi.object({
-        maker: Joi.string().required(),
-        category: Joi.string().required(),
+        category: Joi.string().uuid().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        images: Joi.array().items(Joi.string())
+        images: Joi.array().items(Joi.string()),
     })
 
     create = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { error } = this.createSchema.validate(req.body)
-        return error ? next(error) : next()
+        if (error) return next(error)
+
+        next()
     })
 
     update = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { error } = this.updateSchema.validate(req.body)
-        return error ? next(error) : next()
+        if (error) return next(error)
+
+        next()
     })
 }

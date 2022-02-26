@@ -18,11 +18,15 @@ export class CategoryValidator {
 
     create = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { error } = this.createSchema.validate(req.body)
-        return error ? next(error) : next()
+        if (error) return next(error)
+
+        next()
     })
 
     update = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const { error } = this.updateSchema.validate(req.body)
-        return error ? next(error) : next()
+        if (error) return next(error)
+
+        next()
     })
 }

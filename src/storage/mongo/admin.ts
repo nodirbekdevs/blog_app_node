@@ -1,4 +1,4 @@
-import { AdminRepo, IAdminAllResponse } from '../repo/admin'
+import { AdminRepo } from '../repo/admin'
 import Admin, { IAdmin } from '../../models/Admin'
 import { logger } from '../../config/logger'
 import AppError from '../../utils/appError'
@@ -8,11 +8,8 @@ export class AdminStorage implements AdminRepo {
 
     async find(query: Object): Promise<IAdmin[]> {
         try {
-            let admins = await Admin.find({ ...query }).select('-password')
-            if (!admins) {
-                logger.warn(`${this.scope}.get failed to findOne`)
-                throw new AppError(404, 'admin_404')
-            }
+            let admins = await Admin.find({ ...query })
+
             return admins
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)
@@ -22,10 +19,10 @@ export class AdminStorage implements AdminRepo {
 
     async findOne(query: Object): Promise<IAdmin> {
         try {
-            let admin = await Admin.findOne(query).select('-password')
+            let admin = await Admin.findOne(query)
             if (!admin) {
                 logger.warn(`${this.scope}.get failed to findOne`)
-                throw new AppError(404, 'admin_404')
+                throw new AppError(401, 'admin_404')
             }
             return admin
         } catch (error) {

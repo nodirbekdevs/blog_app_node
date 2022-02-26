@@ -1,4 +1,4 @@
-import { UserRepo, IUserAllResponse } from '../repo/user'
+import { UserRepo } from '../repo/user'
 import User, { IUser } from '../../models/User'
 import { logger } from '../../config/logger'
 import AppError from '../../utils/appError'
@@ -8,7 +8,7 @@ export class UserStorage implements UserRepo {
 
     async find(query: Object): Promise<IUser[]> {
         try {
-            let users = await User.find({ ...query }).populate("interestedCategories")
+            let users = await User.find({ ...query })
             return users
         } catch (error) {
             logger.error(`${this.scope}.find: finished with error: ${error}`)
@@ -18,8 +18,7 @@ export class UserStorage implements UserRepo {
 
     async findOne(query: Object): Promise<IUser> {
         try {
-            console.log(query)
-            let user = await User.findOne(query).populate("interestedCategories")
+            let user = await User.findOne(query)
             if (!user) {
                 logger.warn(`${this.scope}.get failed to findOne`)
                 throw new AppError(404, 'user_404')

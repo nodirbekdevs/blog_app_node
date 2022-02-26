@@ -1,4 +1,4 @@
-import { CategoryRepo, ICategoryAllResponse } from '../repo/category'
+import { CategoryRepo } from '../repo/category'
 import Category, { ICategory } from '../../models/Category'
 import { logger } from '../../config/logger'
 import AppError from '../../utils/appError'

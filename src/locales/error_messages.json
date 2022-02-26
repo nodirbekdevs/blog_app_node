@@ -1,9 +1,9 @@
 {
   "error_messages": {
     "sample_400": {
-      "en": "",
-      "ru": "",
-      "uz": ""
+      "en": "You are not allowed",
+      "ru": "Ввм не разрешено",
+      "uz": "Sizga ruxsat etilmagan"
     }
   }
 }
